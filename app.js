@@ -54,6 +54,7 @@ function deleteCheck(e) {
     const todo = item.parentElement;
     // animation
     todo.classList.add("fall");
+    removeCompleted(todo);
     removeLocalStorage(todo);
     todo.addEventListener("transitionend", function (e) {
       todo.remove();
@@ -63,7 +64,6 @@ function deleteCheck(e) {
   else if (item.classList[0] === "complete-btn") {
     const todo = item.parentElement;
     todo.classList.toggle("completed");
-
     if (todo.classList.contains("completed")) {
       saveCompleted(todo);
     } else {
@@ -148,7 +148,6 @@ function removeLocalStorage(todo) {
   const todoIndex = todos.indexOf(todo.children[0].innerText);
   todos.splice(todoIndex, 1);
   localStorage.setItem("todos", JSON.stringify(todos));
-  removeCompleted(todo);
 }
 
 function checkCompleteds() {
@@ -177,9 +176,15 @@ function saveCompleted(todo) {
   completeds.push(todo.querySelector(".todo-item").innerText);
   localStorage.setItem("completeds", JSON.stringify(completeds));
 }
+
 function removeCompleted(todo) {
   completeds = checkCompleteds();
-  const completedIndex = completeds.indexOf(todo.children[0].innerText);
-  completeds.splice(completedIndex, 1);
-  localStorage.setItem("completeds", JSON.stringify(completeds));
+  const todoText = todo.children[0].innerText;
+  console.log(completeds);
+  if (completeds.includes(todoText)) {
+    console.log(todoText);
+    const completedIndex = completeds.indexOf();
+    completeds.splice(completedIndex, 1);
+    localStorage.setItem("completeds", JSON.stringify(completeds));
+  }
 }
