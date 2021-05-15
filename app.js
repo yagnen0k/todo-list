@@ -180,9 +180,7 @@ function saveCompleted(todo) {
 function removeCompleted(todo) {
   completeds = checkCompleteds();
   const todoText = todo.children[0].innerText;
-  console.log(completeds);
   if (completeds.includes(todoText)) {
-    console.log(todoText);
     const completedIndex = completeds.indexOf();
     completeds.splice(completedIndex, 1);
     localStorage.setItem("completeds", JSON.stringify(completeds));
