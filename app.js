@@ -15,9 +15,8 @@ filterOption.addEventListener("click", filterTodo);
 // FUNCTIONS
 function addTodo(event) {
   event.preventDefault();
-  if (todoInput.value) {
-    // prevent form submiting
-
+  todos=checkTodos();
+  if (todoInput.value && !todos.includes(todoInput.value)) {
     // create todo div
     const todoDiv = document.createElement("div");
     todoDiv.classList.add("todo");
@@ -44,7 +43,7 @@ function addTodo(event) {
     // CLEAR TODO INPUT
     todoInput.value = "";
   } else {
-    alert("bos birakma amk");
+    alert("bos birakma amk yada aynı şeyi yazma");
   }
 }
 function deleteCheck(e) {
@@ -98,23 +97,13 @@ function filterTodo(e) {
 
 function saveLocalTodos(todo) {
   // CHECK -- DO I ALREADY HAVE THING IN THERE?
-  let todos;
-  if (localStorage.getItem("todos") === null) {
-    todos = [];
-  } else {
-    todos = JSON.parse(localStorage.getItem("todos"));
-  }
+  todos = checkTodos();
   todos.push(todo);
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 function getTodos() {
-  let todos;
-  if (localStorage.getItem("todos") === null) {
-    todos = [];
-  } else {
-    todos = JSON.parse(localStorage.getItem("todos"));
-  }
+  todos = checkTodos();
   todos.forEach(function (todo) {
     //create todo div
     const todoDiv = document.createElement("div");
@@ -139,15 +128,19 @@ function getTodos() {
   });
 }
 function removeLocalStorage(todo) {
+  todos = checkTodos();
+  const todoIndex = todos.indexOf(todo.children[0].innerText);
+  todos.splice(todoIndex, 1);
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+function checkTodos() {
   let todos;
   if (localStorage.getItem("todos") === null) {
     todos = [];
   } else {
     todos = JSON.parse(localStorage.getItem("todos"));
   }
-  const todoIndex = todos.indexOf(todo.children[0].innerText);
-  todos.splice(todoIndex, 1);
-  localStorage.setItem("todos", JSON.stringify(todos));
+  return todos;
 }
 
 function checkCompleteds() {
